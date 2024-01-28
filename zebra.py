@@ -6,7 +6,7 @@ def solve():
     petses = list(permutations(('dog', 'snails', 'fox', 'horse', 'zebra')))
     drinks = list(permutations(('coffee', 'tea', 'milk', 'orange juice', 'water')))
     smokes = list(permutations(('old gold', 'kools', 'chesterfields', 'lucky strike', 'parliaments')))
-    return [(h,w,p,d,s)
+    return next((h,w,p,d,s)
             for w in wheres
                 if w.index('norwegian')==0
             for d in drinks
@@ -19,7 +19,7 @@ def solve():
                 and w.index('japanese')==s.index('parliaments'))
             for p in petses
                 if (w.index('spaniard')==p.index('dog')  and s.index('old gold')==p.index('snails')
-                and abs(s.index('chesterfields')-p.index('fox'))==1 and abs(s.index('kools')-p.index('horse'))==1)][0]
+                and abs(s.index('chesterfields')-p.index('fox'))==1 and abs(s.index('kools')-p.index('horse'))==1))
                                         
 
 print(solve())
