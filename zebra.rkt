@@ -37,35 +37,35 @@
 (define (solve hs ws ps ds ss)
     ; [ListOf String] [ListOf String] -> [ListOf [ListOf String]]
     ; returns a valid solution to the zebra puzzle
-    (filter (lambda (l) (and (= (position (second l) "spaniard") (position (third l) "dog"))
-                          (= (position (fifth l) "old gold") (position (third l) "snails"))
-                          (= (abs (- (position (fifth l) "chesterfields") (position (third l) "fox"))) 1)
-                          (= (abs (- (position (fifth l) "kools") (position (third l) "horse"))) 1)))
-    (foldr append '() (map (lambda (p)
-    (filter (lambda (l) (and (= (position (fifth l) "kools") (position (first l) "yellow"))
-                          (= (position (fifth l) "lucky strike") (position (fourth l) "orange juice"))
-                          (= (position (second l) "japanese") (position (fifth l) "parliaments"))))
-        (foldr append '() (map (lambda (s)
-            (filter (lambda (l) (and
-                                    (= (position (second l) "englishman") (position (first l) "red"))
-                                    (= (position (fourth l) "coffee") (position (first l) "green"))
-                                    (= (abs (- (position (second l) "norwegian") (position (first l) "blue"))) 1)))
-                (foldr append '() (map (lambda (h)
-                    (filter (lambda (l) (= (position (second l) "ukranian") (position (fourth l) "tea")))
-                        (foldr append '() (map (lambda (d)
-                            (map (lambda (w) (list h w p d s))
-                                (filter (lambda (w) (= (position w "norwegian") 0)) ws)))
-                                (filter (lambda (d) (= (position d "milk") 2)) ds)))))
-                                (filter (lambda (h) (= (- (position h "ivory") (position h "green")) 1)) hs)))))
-                                ss))))
-                                ps)))
-    #;
-    (filter contented? (map (lambda (w) 
-        (filter contented? (map (lambda (d) 
-            (filter contented? (map (lambda (h) 
-                (filter contented? (map (lambda (s) 
-                    (filter contented? (map (lambda (p) (solve h w p d s)) ps))) ss))) hs))) ds))) ws))))
+    (filter (lambda (l) (and
+        (= (position (fifth l) "lucky strike") (position (fourth l) "orange juice"))
+        (= (position (fifth l) "kools") (position (first l) "yellow"))
+        (= (position (second l) "spaniard") (position (third l) "dog"))
+        (= (position (second l) "japanese") (position (fifth l) "parliaments"))))
+    (foldr append '() 
+            (map (lambda (l2) 
+            (map (lambda (l1) (list (first l1) (second l1) (first l2) (third l1) (second l2)))
+    (filter (lambda (l) (and
+        (= (position (third l) "coffee") (position (first l) "green"))
+        (= (position (second l) "ukranian") (position (third l) "tea"))))
+    (foldr append '() (map (lambda (d) (map (lambda (l) (list (first l) (second l) d))
+    (filter (lambda (l) (and 
+        (= (position (second l) "englishman") (position (first l) "red"))
+        (= (abs (- (position (second l) "norwegian") (position (first l) "blue"))) 1)))
+    (foldr append '() (map (lambda (w) (map (lambda (h) (list h w))
+    (filter (lambda (h) (= (- (position h "ivory") (position h "green")) 1)) hs)))
+    (filter (lambda (w) (= (position w "norwegian") 0)) ws))))))
+    (filter (lambda (d) (= (position d "milk") 2)) ds))))))
+    (filter (lambda (l) (and 
+        (= (position (second l) "old gold") (position (first l) "snails"))
+        (= (abs (- (position (second l) "chesterfields") (position (first l) "fox"))) 1)
+        (= (abs (- (position (second l) "kools") (position (first l) "horse"))) 1)))
+    (foldr append '() (map (lambda (s) (map (lambda (p) (list p s)) ps)) ss)))))))
 
+
+
+;=========================
+; constants
 
 
 (define houses (permute '("red" "green" "ivory" "yellow" "blue")))
@@ -73,5 +73,10 @@
 (define petses (permute '("dog" "snails" "fox" "horse" "zebra")))
 (define drinks (permute '("coffee" "tea" "milk" "orange juice" "water")))
 (define smokes (permute '("old gold" "kools" "chesterfields" "lucky strike" "parliaments")))
+
+
+;========================
+; action!
+
 
 (solve houses wheres petses drinks smokes)
